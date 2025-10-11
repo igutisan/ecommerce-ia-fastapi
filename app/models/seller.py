@@ -1,17 +1,16 @@
 import uuid
-from sqlalchemy import Column, Integer, String, UUID
-from sqlalchemy.sql.expression import null
-from app.config.db_connection import Base, engine, get_db
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+from app.config.db_connection import Base, engine
 
 
 class SellerModel(Base):
     __tablename__ = "sellers"
 
-    id = Column(
-        String(100), primary_key=True, index=True, default=lambda: str(uuid.uuid4())
-    )
+    id = Column(String, primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
     email = Column(String(50), nullable=False, unique=True)
     password = Column(String(150), nullable=False)
+    products = relationship("ProductModel", back_populates="seller")
 
 
 Base.metadata.create_all(bind=engine)

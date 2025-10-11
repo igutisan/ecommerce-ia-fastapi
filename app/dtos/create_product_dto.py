@@ -1,11 +1,15 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field
 
 
-class RegisterDTO(BaseModel):
-    email: EmailStr = Field(..., description="Correo electrónico válido del usuario")
-    password: str = Field(
-        ...,
-        min_length=8,
-        max_length=64,
-        description="Contraseña entre 8 y 64 caracteres con al menos una mayúscula, una minúscula, un número y un carácter especial",
+class CreateProductDTO(BaseModel):
+    name: str = Field(..., max_length=50, description="Nombre del producto (único)")
+    description: str = Field(
+        ..., max_length=500, description="Descripción detallada del producto"
     )
+    price: int = Field(..., gt=0, description="Precio del producto (mayor que 0)")
+    quantity: int = Field(
+        ..., ge=0, description="Cantidad disponible en inventario (0 o más)"
+    )
+
+    class Config:
+        orm_mode = True

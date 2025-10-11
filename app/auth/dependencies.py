@@ -23,7 +23,6 @@ def get_current_seller(
 ) -> ResponseLoginDTO:
     email = security.verify_token(token, credentials_exception)
     seller = db.query(SellerModel).filter(SellerModel.email == email).first()
-    response = ResponseLoginDTO(email=email, token=token)
     if seller is None:
         raise credentials_exception
-    return response
+    return seller
