@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.openapi.models import Response
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 from app.dtos.login_dto import LoginDTO
@@ -15,6 +16,8 @@ from app.auth.dependencies import get_current_seller
 from app.models.seller import SellerModel
 from app.dtos.create_product_dto import CreateProductDTO
 from app.services import products_service
+from typing import List
+from app.dtos.product_dto import ProductResponseDTO
 
 # Cargar variables del archivo .env
 load_dotenv()
@@ -52,11 +55,7 @@ def login_for_access_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token = create_access_token(data={"sub": seller.email})
-    return {"access_token": access_token, "token_type": "bearer"}
-
-
-from typing import List
-from app.dtos.product_dto import ProductResponseDTO
+    return ResponseLoginDTO(token=access_token)
 
 
 @app.post("/products", status_code=201)
