@@ -18,7 +18,7 @@ def generate_product_description(product_name: str, product_description: str):
     - Enfócate en los beneficios del producto (no solo en las características).
     - Usa un tono emocional, cercano y persuasivo, pero natural (sin exagerar).
     - Incluye una breve introducción que capture la atención, una explicación de valor y un llamado a la acción final.
-    - Mantén la descripción entre 100 y 150 palabras.
+    - Mantén la descripción entre 70 y 110 palabras.
     - Responde exclusivamente en formato JSON, siguiendo esta estructura exacta:
 
     {{

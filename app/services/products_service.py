@@ -9,6 +9,7 @@ from app.services.genia_service import (
     generate_product_description,
     generate_image,
 )
+import re
 
 
 async def create_product(
@@ -30,7 +31,9 @@ async def create_product(
 
         # Parsear la descripción generada
         try:
-            generated_data = json.loads(generated_description_str)
+            generated_data = json.loads(
+                clean_llm_json_response(generated_description_str)
+            )
             enhanced_description = generated_data.get("productDescription", "")
         except (json.JSONDecodeError, AttributeError):
             enhanced_description = "Could not generate enhanced description."
@@ -59,3 +62,15 @@ async def create_product(
 
 def get_products_by_seller(db: Session, seller_id: str) -> List[ProductModel]:
     return db.query(ProductModel).filter(ProductModel.seller_id == seller_id).all()
+
+
+def clean_llm_json_response(raw_response: str) -> str:
+    """
+    Limpia una respuesta de un LLM que devuelve un JSON
+    dentro de un bloque de código markdown (```json ... ```).
+    """
+    match = re.search(r"```json\s*(\{.*?\})\s*```", raw_response, re.DOTALL)
+    if match:
+        return match.group(1)
+
+    return raw_response.strip()
