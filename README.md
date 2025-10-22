@@ -106,3 +106,7 @@ La documentación interactiva de la API (generada por Swagger UI) está disponib
     -   **Body**: `{ "name": "Mi Producto", "description": "Una breve descripción inicial.", "price": 29.99 }`
 -   **`GET /products/me`** `(Protegido)`: Devuelve una lista de todos los productos creados por el vendedor autenticado.
     -   **Header**: `Authorization: Bearer <tu_token>`
+
+#### Recomendaciones
+
+-   ** Es importante que tengan en cuenta que el inicio de sesion desde la documentacion Open API suele fallar por lo tanto se recomienda usar mejor user Postman.
